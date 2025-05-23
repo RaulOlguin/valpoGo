@@ -1,0 +1,10 @@
+PASO 1 (Terminal en carpeta donde está el dockerfile)
+docker build -t mysql-GRY2204 . 
+
+PASO 2 (En el mismo terminal)
+docker run -d -p 3306:3306 --name mysql-GRY2204 mysql-GRY2204
+
+PASO 3(En dockers): 
+mysql -u myuser -p  (passowrd)
+
+PASO 4 (Revisar las tablas en MySQL en pestaña EXEC en dockers)
