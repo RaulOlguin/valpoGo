@@ -1,4 +1,4 @@
-package com.duoc.backend.Bus;
+package com.duoc.backend.Ruta;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,16 +24,16 @@ import org.springframework.hateoas.CollectionModel;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
-@RequestMapping("/bus")
-public class BusController {
+@RequestMapping("/ruta")
+public class RutaController {
 
-    private final BusModelAssembler assembler;
-    private final BusService busService;
-    
+    private final RutaModelAssembler assembler;
+    private final RutaService rutaService;
+
     //@Autowired
-    public BusController(BusModelAssembler assembler, BusService busService) {
+    public RutaController(RutaModelAssembler assembler, RutaService rutaService) {
         this.assembler = assembler;
-        this.busService = busService;
+        this.rutaService = rutaService;
     }
 
 
@@ -44,37 +44,37 @@ public class BusController {
     }
 
     @GetMapping
-    public CollectionModel<BusModel> getAllBuses() {
-        List<Bus> buses = (List<Bus>) busService.getAllBuses();
+    public CollectionModel<RutaModel> getAllRutas() {
+        List<Ruta> rutas = (List<Ruta>) rutaService.getAllRutas();
 
-        List<BusModel> models = buses.stream()
-            .map(bus -> assembler.toModel(bus)) 
+        List<RutaModel> models = rutas.stream()
+            .map(ruta -> assembler.toModel(ruta))
             .collect(Collectors.toList());
 
         return CollectionModel.of(models,
-            linkTo(methodOn(BusController.class).getAllBuses()).withSelfRel());
+            linkTo(methodOn(RutaController.class).getAllRutas()).withSelfRel());
     }
 
     @GetMapping("/{id}")
-    public BusModel getBusById(@PathVariable Long id) {
-        Bus bus = busService.getBusById(id);
-        return assembler.toModel(bus);
+    public RutaModel getRutaById(@PathVariable Long id) {
+        Ruta ruta = rutaService.getRutaById(id);
+        return assembler.toModel(ruta);
     }
 
     @PostMapping
-    public Bus saveBus(@RequestBody Bus bus) {
-        return busService.saveBus(bus);
+    public Ruta saveRuta(@RequestBody Ruta ruta) {
+        return rutaService.saveRuta(ruta);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteBus(@PathVariable Long id) {
-        busService.deleteBus(id);
+    public void deleteRuta(@PathVariable Long id) {
+        rutaService.deleteRuta(id);
     }
     
     @PutMapping("/{id}")
-    public Bus updateBus(@PathVariable Long id, @RequestBody Bus bus) {
-        bus.setId(id); // Aseguramos que el ID del cuerpo coincida con el de la URL
-        return busService.updateBus(bus);
+    public Ruta updateRuta(@PathVariable Long id, @RequestBody Ruta ruta) {
+        ruta.setId(id); // Aseguramos que el ID del cuerpo coincida con el de la URL
+        return rutaService.updateRuta(ruta);
     }
 
 

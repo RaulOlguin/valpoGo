@@ -22,7 +22,7 @@ public class LoginController {
     @PostMapping("login")
     public String login(
             @RequestParam("user") String username,
-            @RequestParam("encryptedPass") String encryptedPass) {
+            @RequestParam String encryptedPass) {
 
         /**
         * En el ejemplo no se realiza la correcta validación del usuario

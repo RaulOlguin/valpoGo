@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SecuredController {
 
     @RequestMapping("greetings")
-    public String greetings(@RequestParam(value="name", defaultValue="World") String name) {
+    public String greetings(@RequestParam(defaultValue="World") String name) {
         return "Hello {" + name + "}";
     }
 }

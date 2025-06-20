@@ -1,4 +1,4 @@
-package com.duoc.backend.Bus;
+package com.duoc.backend.Pasajero;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,16 +24,16 @@ import org.springframework.hateoas.CollectionModel;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
-@RequestMapping("/bus")
-public class BusController {
+@RequestMapping("/pasajero")
+public class PasajeroController {
 
-    private final BusModelAssembler assembler;
-    private final BusService busService;
+    private final PasajeroModelAssembler assembler;
+    private final PasajeroService pasajeroService;
     
     //@Autowired
-    public BusController(BusModelAssembler assembler, BusService busService) {
+    public PasajeroController(PasajeroModelAssembler assembler, PasajeroService pasajeroService) {
         this.assembler = assembler;
-        this.busService = busService;
+        this.pasajeroService = pasajeroService;
     }
 
 
@@ -44,37 +44,37 @@ public class BusController {
     }
 
     @GetMapping
-    public CollectionModel<BusModel> getAllBuses() {
-        List<Bus> buses = (List<Bus>) busService.getAllBuses();
+    public CollectionModel<PasajeroModel> getAllPasajeros() {
+        List<Pasajero> pasajeros = (List<Pasajero>) pasajeroService.getAllPasajeros();
 
-        List<BusModel> models = buses.stream()
-            .map(bus -> assembler.toModel(bus)) 
+        List<PasajeroModel> models = pasajeros.stream()
+            .map(pasajero -> assembler.toModel(pasajero)) 
             .collect(Collectors.toList());
 
         return CollectionModel.of(models,
-            linkTo(methodOn(BusController.class).getAllBuses()).withSelfRel());
+            linkTo(methodOn(PasajeroController.class).getAllPasajeros()).withSelfRel());
     }
 
     @GetMapping("/{id}")
-    public BusModel getBusById(@PathVariable Long id) {
-        Bus bus = busService.getBusById(id);
-        return assembler.toModel(bus);
+    public PasajeroModel getPasajeroById(@PathVariable Long id) {
+        Pasajero pasajero = pasajeroService.getPasajeroById(id);
+        return assembler.toModel(pasajero);
     }
 
     @PostMapping
-    public Bus saveBus(@RequestBody Bus bus) {
-        return busService.saveBus(bus);
+    public Pasajero savePasajero(@RequestBody Pasajero pasajero) {
+        return pasajeroService.savePasajero(pasajero);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteBus(@PathVariable Long id) {
-        busService.deleteBus(id);
+    public void deletePasajero(@PathVariable Long id) {
+        pasajeroService.deletePasajero(id);
     }
     
     @PutMapping("/{id}")
-    public Bus updateBus(@PathVariable Long id, @RequestBody Bus bus) {
-        bus.setId(id); // Aseguramos que el ID del cuerpo coincida con el de la URL
-        return busService.updateBus(bus);
+    public Pasajero updateBus(@PathVariable Long id, @RequestBody Pasajero pasajero) {
+        pasajero.setId(id); // Aseguramos que el ID del cuerpo coincida con el de la URL
+        return pasajeroService.updatePasajero(pasajero);
     }
 
 

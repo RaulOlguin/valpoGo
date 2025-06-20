@@ -17,7 +17,7 @@ class WebSecurityConfig{
     JWTAuthorizationFilter jwtAuthorizationFilter;
 
     @Bean
-    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+    SecurityFilterChain configure(HttpSecurity http) throws Exception {
 
         http
                 .csrf((csrf) -> csrf
@@ -25,6 +25,12 @@ class WebSecurityConfig{
                 .authorizeHttpRequests( authz -> authz
                         .requestMatchers(HttpMethod.POST, Constants.LOGIN_URL).permitAll()
                         .requestMatchers(HttpMethod.GET, Constants.LOGIN_URL).permitAll()
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/doc/**"
+                        ).permitAll()
                         .anyRequest().authenticated())
                 .addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

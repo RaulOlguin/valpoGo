@@ -1,4 +1,4 @@
-package com.duoc.backend.Bus;
+package com.duoc.backend.Paradero;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,16 +24,16 @@ import org.springframework.hateoas.CollectionModel;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
-@RequestMapping("/bus")
-public class BusController {
+@RequestMapping("/paradero")
+public class ParaderoController {
 
-    private final BusModelAssembler assembler;
-    private final BusService busService;
-    
+    private final ParaderoModelAssembler assembler;
+    private final ParaderoService paraderoService;
+
     //@Autowired
-    public BusController(BusModelAssembler assembler, BusService busService) {
+    public ParaderoController(ParaderoModelAssembler assembler, ParaderoService paraderoService) {
         this.assembler = assembler;
-        this.busService = busService;
+        this.paraderoService = paraderoService;
     }
 
 
@@ -44,37 +44,37 @@ public class BusController {
     }
 
     @GetMapping
-    public CollectionModel<BusModel> getAllBuses() {
-        List<Bus> buses = (List<Bus>) busService.getAllBuses();
+    public CollectionModel<ParaderoModel> getAllParaderos() {
+        List<Paradero> paraderos = (List<Paradero>) paraderoService.getAllParaderos();
 
-        List<BusModel> models = buses.stream()
-            .map(bus -> assembler.toModel(bus)) 
+        List<ParaderoModel> models = paraderos.stream()
+            .map(paradero -> assembler.toModel(paradero))
             .collect(Collectors.toList());
 
         return CollectionModel.of(models,
-            linkTo(methodOn(BusController.class).getAllBuses()).withSelfRel());
+            linkTo(methodOn(ParaderoController.class).getAllParaderos()).withSelfRel());
     }
 
     @GetMapping("/{id}")
-    public BusModel getBusById(@PathVariable Long id) {
-        Bus bus = busService.getBusById(id);
-        return assembler.toModel(bus);
+    public ParaderoModel getParaderoById(@PathVariable Long id) {
+        Paradero paradero = paraderoService.getParaderoById(id);
+        return assembler.toModel(paradero);
     }
 
     @PostMapping
-    public Bus saveBus(@RequestBody Bus bus) {
-        return busService.saveBus(bus);
+    public Paradero saveParadero(@RequestBody Paradero paradero) {
+        return paraderoService.saveParadero(paradero);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteBus(@PathVariable Long id) {
-        busService.deleteBus(id);
+    public void deleteParadero(@PathVariable Long id) {
+        paraderoService.deleteParadero(id);
     }
     
     @PutMapping("/{id}")
-    public Bus updateBus(@PathVariable Long id, @RequestBody Bus bus) {
-        bus.setId(id); // Aseguramos que el ID del cuerpo coincida con el de la URL
-        return busService.updateBus(bus);
+    public Paradero updateParadero(@PathVariable Long id, @RequestBody Paradero paradero) {
+        paradero.setId(id); // Aseguramos que el ID del cuerpo coincida con el de la URL
+        return paraderoService.updateParadero(paradero);
     }
 
 
